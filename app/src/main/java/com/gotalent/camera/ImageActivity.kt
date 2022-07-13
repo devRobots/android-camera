@@ -60,7 +60,7 @@ class ImageActivity : AppCompatActivity() {
             shareIntent.type = "image/*"
             startActivity(Intent.createChooser(shareIntent, "Compartir Foto"))
         } catch (e: Exception) {
-
+            // No requerido
         }
     }
 
@@ -71,37 +71,23 @@ class ImageActivity : AppCompatActivity() {
         //Output stream
         var fos: OutputStream? = null
 
-        //For devices running android >= Q
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            //getting the contentResolver
             this@ImageActivity.contentResolver?.also { resolver ->
-
-                //Content resolver will process the contentvalues
                 val contentValues = ContentValues().apply {
-
-                    //putting file information in content values
                     put(MediaStore.MediaColumns.DISPLAY_NAME, image.name)
                     put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
                     put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
                 }
 
-                //Inserting the contentValues to contentResolver and getting the Uri
-                val imageUri: Uri? =
-                    resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-                //Opening an outputstream with the Uri that we got
+                val imageUri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
                 fos = imageUri?.let { resolver.openOutputStream(it) }
             }
         } else {
-            //These for devices running on android < Q
-            //So I don't think an explanation is needed here
-            val imagesDir =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            fos = FileOutputStream(image)
+            val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            fos = FileOutputStream(imagesDir.absolutePath + "/" + image.name)
         }
 
         fos?.use {
-            //Finally writing the bitmap to the output stream that we opened
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
             Toast.makeText(this@ImageActivity, "Foto Guardada", Toast.LENGTH_SHORT).show()
             finish()
@@ -110,14 +96,11 @@ class ImageActivity : AppCompatActivity() {
 
     private fun deleteImage(imagePath: String) {
         try {
-            // Delete image
             val imgFile = File(imagePath)
             imgFile.delete()
-
-            // Close activity
             finish()
         } catch (e: Exception) {
-
+            // No requerido
         }
     }
 }

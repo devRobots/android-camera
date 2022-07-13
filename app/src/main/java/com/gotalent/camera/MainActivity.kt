@@ -252,7 +252,7 @@ class MainActivity : AppCompatActivity() {
                     outputStream = FileOutputStream(file)
                     outputStream.write(bytes)
                 } catch (e: IOException) {
-                    
+                    // No requerido
                 } finally {
                     image.close()
                     outputStream?.close()
@@ -274,7 +274,7 @@ class MainActivity : AppCompatActivity() {
                             }
                         }, backgroundHandler)
                     } catch (e: CameraAccessException) {
-                        
+                        // No requerido
                     }
                 }
 

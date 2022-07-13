@@ -106,18 +106,16 @@ class MainActivity : AppCompatActivity() {
             backgroundThread = null
             backgroundHandler = null
         } catch (e: InterruptedException) {
-            
+            // No requerido
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                Toast.makeText(this, "No", Toast.LENGTH_SHORT).show()
-                finish()
-            }
+        if (requestCode == REQUEST_CAMERA_PERMISSION && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            Toast.makeText(this, "Se requieren permisos de acceso a la camara", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 
@@ -149,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onConfigureFailed(session: CameraCaptureSession) {
-            Toast.makeText(this@MainActivity, "Fallo en la configuración de la sesión", Toast.LENGTH_SHORT).show()
+            // No requerido
         }
     }
 
@@ -158,9 +156,13 @@ class MainActivity : AppCompatActivity() {
             startCamera()
         }
 
-        override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture, width: Int, height: Int) {}
+        override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture, width: Int, height: Int) {
+            // No requerido
+        }
         override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean { return true }
-        override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {}
+        override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {
+            // No requerido
+        }
     }
 
     /***************************/
@@ -192,7 +194,7 @@ class MainActivity : AppCompatActivity() {
             flashButton.setImageResource(R.drawable.ic_baseline_flash_on_24)
             isFlashOn = false
         } catch (e: CameraAccessException) {
-            
+            // No requerido
         }
     }
 
@@ -205,7 +207,7 @@ class MainActivity : AppCompatActivity() {
             captureRequestBuilder.addTarget(surface)
             cameraDevice?.createCaptureSession(listOf(surface), captureSessionStateCallBack, null)
         } catch (e: CameraAccessException) {
-            
+            // No requerido
         }
     }
 
@@ -281,7 +283,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }, backgroundHandler)
         } catch (e: CameraAccessException) {
-            
+            // No requerido
         }
     }
 
@@ -302,7 +304,7 @@ class MainActivity : AppCompatActivity() {
                 cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), null, null)
             }
         } catch (e: CameraAccessException) {
-            
+            // No requerido
         }
     }
 

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Camera</string>
+    <string name="cameraImageContentDescription">TODO</string>
+    <string name="button_capture_text">Capture</string>
+    <string name="cambiar_camara">Cambiar camara</string>
+    <string name="flash">Flash</string>
+    <string name="previsualizacion_de_imagen">Previsualizacion de Imagen</string>
+    <string name="guardar">Guardar</string>
+    <string name="compartir">Compartir</string>
+    <string name="eliminar">Eliminar</string>
+</resources>

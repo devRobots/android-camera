@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Size
-import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
 import android.view.TextureView.SurfaceTextureListener
@@ -218,7 +217,7 @@ class MainActivity : AppCompatActivity() {
         val manager: CameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
         try {
             val characteristics = manager.getCameraCharacteristics(cameraDevice!!.id)
-            var sizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)!!.getOutputSizes(ImageReader::class.java)
+            val sizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)!!.getOutputSizes(ImageReader::class.java)
 
             // Default Values
             var width = 640
@@ -267,7 +266,7 @@ class MainActivity : AppCompatActivity() {
             cameraDevice!!.createCaptureSession(listOf(reader.surface), object : CameraCaptureSession.StateCallback() {
                 override fun onConfigured(session: CameraCaptureSession) {
                     try {
-                        session.capture(captureBuilder!!.build(), object : CameraCaptureSession.CaptureCallback() {
+                        session.capture(captureBuilder.build(), object : CameraCaptureSession.CaptureCallback() {
                             override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
                                 session.close()
                             }

@@ -7,22 +7,45 @@
     android:orientation="vertical"
     tools:context=".activities.ImageActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="#000000"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/previsualizacion_de_imagen" />
-    </LinearLayout>
+            android:contentDescription="@string/previsualizacion_de_imagen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="411dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="0dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:id="@+id/action_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"

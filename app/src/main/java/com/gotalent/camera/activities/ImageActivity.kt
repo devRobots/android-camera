@@ -11,6 +11,8 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Base64
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -63,6 +65,11 @@ class ImageActivity : AppCompatActivity() {
     }
 
     private fun uploadImage(imagePath: String) {
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        val actionLayout = findViewById<LinearLayout>(R.id.action_layout)
+        progressBar.visibility = ProgressBar.VISIBLE
+        actionLayout.visibility = LinearLayout.GONE
+
         val file = File(imagePath)
         val buffer = ByteArray(file.length().toInt() + 100)
         val length: Int = FileInputStream(file).read(buffer)
@@ -85,6 +92,8 @@ class ImageActivity : AppCompatActivity() {
 
             override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
                 Toast.makeText(this@ImageActivity, "Intente de nuevo mas tarde", Toast.LENGTH_SHORT).show()
+                progressBar.visibility = ProgressBar.GONE
+                actionLayout.visibility = LinearLayout.VISIBLE
             }
         })
     }

@@ -21,19 +21,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ImageListActivity : AppCompatActivity() {
 
     /**
-     * Retrofit
-     * @property retrofit Retrofit instance
-     */
-    private val retrofit = Retrofit.Builder().baseUrl(getString(R.string.api_remote))
-        .addConverterFactory(GsonConverterFactory.create()).build()
-
-    /**
-     * Image API
-     * @property service ImageAPI instance
-     */
-    private val service = retrofit.create(ImageAPI::class.java)
-
-    /**
      * On create
      *
      * Genera la vista de la actividad y enlaza toda la logica con el layout
@@ -48,6 +35,9 @@ class ImageListActivity : AppCompatActivity() {
         listaFotos.layoutManager = LinearLayoutManager(this)
         listaFotos.setHasFixedSize(true)
 
+        val retrofit = Retrofit.Builder().baseUrl(getString(R.string.api_remote))
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val service = retrofit.create(ImageAPI::class.java)
         service.getImages().enqueue(object: Callback<Array<String>> {
             override fun onFailure(call: Call<Array<String>>, t: Throwable) {
                 // No requerido

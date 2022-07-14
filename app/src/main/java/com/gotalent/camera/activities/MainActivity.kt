@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
      *
      * Id de la camara seleccionada
      */
-    private var cameraId = getString(R.string.camera_back)
+    private var cameraId = "0"
 
     /**
      * Camera Device

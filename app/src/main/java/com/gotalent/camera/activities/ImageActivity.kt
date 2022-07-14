@@ -1,4 +1,4 @@
-package com.gotalent.camera
+package com.gotalent.camera.activities
 
 import android.content.ContentValues
 import android.content.Intent
@@ -9,11 +9,18 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Base64
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.gotalent.camera.R
+import com.gotalent.camera.interfaces.ImageAPI
+import org.json.JSONObject
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.OutputStream
 
@@ -33,12 +40,17 @@ class ImageActivity : AppCompatActivity() {
             imageView.setImageBitmap(myBitmap)
         }
 
+        val uploadButton = findViewById<ImageView>(R.id.button_upload)
         val shareButton = findViewById<ImageView>(R.id.button_share)
         val saveButton = findViewById<ImageView>(R.id.button_save)
         val deleteButton = findViewById<ImageView>(R.id.button_delete)
 
         shareButton.setOnClickListener {
             shareImage(imagePath)
+        }
+
+        uploadButton.setOnClickListener {
+            uploadImage(imagePath)
         }
 
         saveButton.setOnClickListener {
@@ -48,6 +60,33 @@ class ImageActivity : AppCompatActivity() {
         deleteButton.setOnClickListener {
             deleteImage(imagePath)
         }
+    }
+
+    private fun uploadImage(imagePath: String) {
+        val file = File(imagePath)
+        val buffer = ByteArray(file.length().toInt() + 100)
+        val length: Int = FileInputStream(file).read(buffer)
+        val base64 = Base64.encodeToString(buffer, 0, length, Base64.NO_WRAP)
+        val paramObject = JSONObject()
+        paramObject.put("image", "data:image/jpeg;base64,$base64")
+
+        val url = "https://android-camera-api.herokuapp.com/api/"
+        val retrofit = Retrofit.Builder()
+            .baseUrl(url)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(ImageAPI::class.java)
+        service.uploadImage(paramObject.toString()).enqueue(object : retrofit2.Callback<Void> {
+            override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                Toast.makeText(this@ImageActivity, "Subida", Toast.LENGTH_SHORT).show()
+                this@ImageActivity.finish()
+            }
+
+            override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                Toast.makeText(this@ImageActivity, "Intente de nuevo mas tarde", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun shareImage(imagePath: String) {

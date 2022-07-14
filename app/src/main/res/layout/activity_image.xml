@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ImageActivity">
+    tools:context=".activities.ImageActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,6 +31,18 @@
         android:orientation="horizontal">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:contentDescription="@string/subir"
+            android:focusable="true"
+            app:backgroundTint="#FFFFFF"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_baseline_cloud_upload_24" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +58,7 @@
             android:id="@+id/button_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="32dp"
+            android:layout_margin="16dp"
             android:clickable="true"
             android:contentDescription="@string/compartir"
             android:focusable="true"

@@ -13,12 +13,33 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * Image list activity
+ *
+ * @constructor Create Image list activity
+ */
 class ImageListActivity : AppCompatActivity() {
 
+    /**
+     * Retrofit
+     * @property retrofit Retrofit instance
+     */
     private val retrofit = Retrofit.Builder().baseUrl(getString(R.string.api_remote))
         .addConverterFactory(GsonConverterFactory.create()).build()
+
+    /**
+     * Image API
+     * @property service ImageAPI instance
+     */
     private val service = retrofit.create(ImageAPI::class.java)
 
+    /**
+     * On create
+     *
+     * Genera la vista de la actividad y enlaza toda la logica con el layout
+     *
+     * @param savedInstanceState Saved instance state
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_list)

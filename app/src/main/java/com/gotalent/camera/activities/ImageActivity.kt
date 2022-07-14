@@ -26,7 +26,19 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.OutputStream
 
+/**
+ * Image activity
+ *
+ * @constructor Create Image activity
+ */
 class ImageActivity : AppCompatActivity() {
+    /**
+     * On create
+     *
+     * Genera la vista de la actividad y enlaza toda la logica con el layout
+     *
+     * @param savedInstanceState Instancia guardada de la actividad
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image)
@@ -63,6 +75,13 @@ class ImageActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Upload image
+     *
+     * Envia la imagen al servidor mediante una peticion POST de la API
+     *
+     * @param imagePath Path de la imagen a subir
+     */
     private fun uploadImage(imagePath: String) {
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         val actionLayout = findViewById<LinearLayout>(R.id.action_layout)
@@ -96,6 +115,13 @@ class ImageActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * Share image
+     *
+     * Comparte la imagen con el sistema nativo de Android
+     *
+     * @param imagePath Path de la imagen a compartir
+     */
     private fun shareImage(imagePath: String) {
         try {
             val imageUri = FileProvider.getUriForFile(this, getString(R.string.camera_provider), File(imagePath))
@@ -110,6 +136,13 @@ class ImageActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Save image
+     *
+     * Guarda la imagen en la galeria de fotos del dispositivo
+     *
+     * @param imagePath Path de la imagen a guardar
+     */
     private fun saveImage(imagePath: String) {
         val image = File(imagePath)
         val bitmap = BitmapFactory.decodeFile(imagePath)
@@ -140,6 +173,13 @@ class ImageActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Delete image
+     *
+     * Elimina la imagen del dispositivo
+     *
+     * @param imagePath Path de la imagen a eliminar
+     */
     private fun deleteImage(imagePath: String) {
         try {
             val imgFile = File(imagePath)

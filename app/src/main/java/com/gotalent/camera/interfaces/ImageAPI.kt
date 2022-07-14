@@ -1,14 +1,11 @@
 package com.gotalent.camera.interfaces
 
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ImageAPI {
     @GET("images")
-    fun getImages(): Call<List<String>>
+    fun getImages(): Call<Array<String>>
 
     @Headers("Content-Type: text/plain")
     @POST("images")

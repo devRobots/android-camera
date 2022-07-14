@@ -25,12 +25,9 @@ class MainActivity : AppCompatActivity() {
     private val REQUEST_CAMERA_PERMISSION = 200
     private val REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = 201
 
-    private val CAMERA_FRONT = "1"
-    private val CAMERA_BACK = "0"
-
     private var isFlashOn = false
 
-    private val ORIENTATIONS = mapOf(
+    private val orientations = mapOf(
         Pair(Surface.ROTATION_0, 90),
         Pair(Surface.ROTATION_90, 0),
         Pair(Surface.ROTATION_180, 270),
@@ -44,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private var cameraManager: CameraManager? = null
 
-    private var cameraId = CAMERA_BACK
+    private var cameraId = getString(R.string.camera_back)
     private var cameraDevice: CameraDevice? = null
 
     private lateinit var cameraCaptureSession: CameraCaptureSession
@@ -131,7 +128,7 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == REQUEST_CAMERA_PERMISSION && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            Toast.makeText(this, "Se requieren permisos de acceso a la camara", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.permisos_camara), Toast.LENGTH_SHORT).show()
             finish()
         }
     }
@@ -277,7 +274,7 @@ class MainActivity : AppCompatActivity() {
 
                 file.also {
                     val intent = Intent(this@MainActivity, ImageActivity::class.java)
-                    intent.putExtra("imagePath", file.absolutePath)
+                    intent.putExtra(getString(R.string.intent_image_path), file.absolutePath)
                     startActivity(intent)
                 }
             }, backgroundHandler)
@@ -296,7 +293,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onConfigureFailed(session: CameraCaptureSession) {
-                    Toast.makeText(this@MainActivity, "Fallo en la configuración de la sesión", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, getString(R.string.fallo_sesion), Toast.LENGTH_SHORT).show()
                 }
             }, backgroundHandler)
         } catch (e: CameraAccessException) {
@@ -326,7 +323,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun flipCamera() {
-        cameraId = if (cameraId == CAMERA_FRONT) CAMERA_BACK else CAMERA_FRONT
+        val cameraFront = getString(R.string.camera_front)
+        val cameraBack  = getString(R.string.camera_back)
+
+        cameraId = if (cameraId == cameraFront) cameraBack else cameraFront
         cameraDevice?.close()
         startCamera()
     }
@@ -345,7 +345,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getOrientation(rotation: Int, sensorOrientation: Int): Int {
-        return (ORIENTATIONS[rotation]!! + sensorOrientation + 270) % 360
+        return (orientations[rotation]!! + sensorOrientation + 270) % 360
     }
 }
 

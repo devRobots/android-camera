@@ -26,7 +26,6 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.OutputStream
 
-
 class ImageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +33,7 @@ class ImageActivity : AppCompatActivity() {
 
         val imageView = findViewById<ImageView>(R.id.imageView)
 
-        val imagePath = intent.getStringExtra("imagePath")
+        val imagePath = intent.getStringExtra(getString(R.string.intent_image_path))
         val imgFile = File(imagePath!!)
         var myBitmap: Bitmap? = null
         if (imgFile.exists()) {
@@ -75,23 +74,22 @@ class ImageActivity : AppCompatActivity() {
         val length: Int = FileInputStream(file).read(buffer)
         val base64 = Base64.encodeToString(buffer, 0, length, Base64.NO_WRAP)
         val paramObject = JSONObject()
-        paramObject.put("image", "data:image/jpeg;base64,$base64")
+        paramObject.put("image", "data:${getString(R.string.mime_type)};base64,$base64")
 
-        val url = "https://android-camera-api.herokuapp.com/api/"
         val retrofit = Retrofit.Builder()
-            .baseUrl(url)
+            .baseUrl(getString(R.string.api_remote))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val service = retrofit.create(ImageAPI::class.java)
         service.uploadImage(paramObject.toString()).enqueue(object : retrofit2.Callback<Void> {
             override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
-                Toast.makeText(this@ImageActivity, "Subida", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ImageActivity, getString(R.string.foto_subida), Toast.LENGTH_SHORT).show()
                 this@ImageActivity.finish()
             }
 
             override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
-                Toast.makeText(this@ImageActivity, "Intente de nuevo mas tarde", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ImageActivity, getString(R.string.intente_de_nuevo), Toast.LENGTH_SHORT).show()
                 progressBar.visibility = ProgressBar.GONE
                 actionLayout.visibility = LinearLayout.VISIBLE
             }
@@ -100,13 +98,13 @@ class ImageActivity : AppCompatActivity() {
 
     private fun shareImage(imagePath: String) {
         try {
-            val imageUri = FileProvider.getUriForFile(this, "com.gotalent.camera.provider", File(imagePath))
+            val imageUri = FileProvider.getUriForFile(this, getString(R.string.camera_provider), File(imagePath))
             val shareIntent = Intent()
             shareIntent.action = Intent.ACTION_SEND
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            shareIntent.type = "image/*"
-            startActivity(Intent.createChooser(shareIntent, "Compartir Foto"))
+            shareIntent.type = getString(R.string.mime_type)
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.compartir_foto)))
         } catch (e: Exception) {
             // No requerido
         }
@@ -123,7 +121,7 @@ class ImageActivity : AppCompatActivity() {
             this@ImageActivity.contentResolver?.also { resolver ->
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, image.name)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+                    put(MediaStore.MediaColumns.MIME_TYPE, getString(R.string.mime_type))
                     put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
                 }
 
@@ -137,7 +135,7 @@ class ImageActivity : AppCompatActivity() {
 
         fos?.use {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-            Toast.makeText(this@ImageActivity, "Foto Guardada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@ImageActivity, getString(R.string.foto_guardada), Toast.LENGTH_SHORT).show()
             finish()
         }
     }

@@ -10,4 +10,17 @@
     <string name="eliminar">Eliminar</string>
     <string name="subir">Subir</string>
     <string name="fotos">Fotos</string>
+    <string name="api_remote">https://android-camera-api.herokuapp.com/api/</string>
+    <string name="api_local">http://192.168.10.10:3000/api/</string>
+    <string name="foto_guardada">Foto Guardada</string>
+    <string name="compartir_foto">Compartir Foto</string>
+    <string name="foto_subida">Foto Subida</string>
+    <string name="intente_de_nuevo">Intente de nuevo mas tarde</string>
+    <string name="permisos_camara">Se requieren permisos de acceso a la camara</string>
+    <string name="fallo_sesion">Fallo en la configuración, intente de nuevo</string>
+    <string name="intent_image_path">imagePath</string>
+    <string name="camera_front">1</string>
+    <string name="camera_back">0</string>
+    <string name="camera_provider">com.gotalent.camera.provider</string>
+    <string name="mime_type">image/jpeg</string>
 </resources>

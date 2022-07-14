@@ -5,7 +5,6 @@
     <item
         android:id="@+id/fotos_action"
         android:icon="@drawable/ic_baseline_photo_album_24"
-        android:iconTint="@color/white"
         android:title="@string/fotos"
         app:showAsAction="always" />
 </menu>
